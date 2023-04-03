@@ -3,10 +3,10 @@ FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d
 
 #Install Prerequisits
 RUN dpkg --add-architecture armhf \
-&&  apt update -y \
-&&  apt upgrade -y \
-&&  apt install git build-essential cmake python3 curl -y \
-&&  apt install gcc-arm-linux-gnueabihf libc6:armhf libncurses5:armhf libstdc++6:armhf -y
+&&  apt-get update -y \
+&&  apt-get upgrade -y \
+&&  apt-get install --no-install-recommends -y git build-essential cmake python3 curl gcc-arm-linux-gnueabihf libc6:armhf libncurses5:armhf libstdc++6:armhf \
+&&  rm -rf /var/lib/apt/lists/*
 
 #Install Box86
 RUN git clone https://github.com/ptitSeb/box86.git \
@@ -51,9 +51,10 @@ RUN mkdir -p /build/steamcmd \
 FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442
 
 RUN  dpkg --add-architecture armhf \
-&&   apt update -y \
-&&   apt upgrade -y \
-&&   apt install libc6:armhf ca-certificates knockd bc -y
+&&   apt-get update -y \
+&&   apt-get upgrade -y \
+&&   apt-get --no-install-recommends install libc6:armhf ca-certificates knockd bc -y \
+&&   rm -rf /var/lib/apt/lists/*
 
 COPY --from=0 /build/ /
 
