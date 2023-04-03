@@ -1,5 +1,5 @@
 # debian bullseye slim
-FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442
+FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442 as builder
 
 #Install Prerequisits
 RUN dpkg --add-architecture armhf \
@@ -56,7 +56,7 @@ RUN  dpkg --add-architecture armhf \
 &&   apt-get --no-install-recommends install libc6:armhf ca-certificates knockd bc -y \
 &&   rm -rf /var/lib/apt/lists/*
 
-COPY --from=0 /build/ /
+COPY --from=builder /build/ /
 
 RUN mkdir -p    /scripts \
 				/usr/local/bin \
@@ -81,7 +81,7 @@ RUN mkdir -p    /scripts \
 
 
 # Install BepInEx, required library and scripts
-ADD ./add /scripts/
+COPY ./add /scripts/
 RUN chmod +x /scripts/valheim.sh
 
 # Setting Environmental Variables
@@ -96,4 +96,4 @@ ENV SERVER_NAME=Raspiheim \
 
 EXPOSE 2456/udp 2457/udp
 
-ENTRYPOINT /scripts/valheim.sh
+ENTRYPOINT ["/scripts/valheim.sh"]
