@@ -1,11 +1,12 @@
-FROM arm64v8/debian:bullseye-slim
+# Debian bullseye slim base image
+FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442 as builder
 
 #Install Prerequisits
 RUN dpkg --add-architecture armhf \
-&&  apt update -y \
-&&  apt upgrade -y \
-&&  apt install git build-essential cmake python3 curl -y \
-&&  apt install gcc-arm-linux-gnueabihf libc6:armhf libncurses5:armhf libstdc++6:armhf -y
+&&  apt-get update -y \
+&&  apt-get upgrade -y \
+&&  apt-get install -y git build-essential cmake python3 curl gcc-arm-linux-gnueabihf libc6:armhf libncurses5:armhf libstdc++6:armhf \
+&&  rm -rf /var/lib/apt/lists/*
 
 #Install Box86
 RUN git clone https://github.com/ptitSeb/box86.git \
@@ -39,22 +40,16 @@ RUN mkdir -p /build/steamcmd \
 &&  cd /build/steamcmd \
 &&  curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
 
-#Install BepInEx
-#RUN mkdir -p /build/BepInEx \
-#&&  cd /build/BepInEx \
-#&&  curl -sqL "https://valheim.plus/cdn/0.9.9/UnixServer.tar.gz" | tar zxvf - \
-#&&  rm ./BepInEx/plugins/ValheimPlus.dll
-
-
-
-FROM arm64v8/debian:bullseye-slim
+# Debian bullseye slim base image
+FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442
 
 RUN  dpkg --add-architecture armhf \
-&&   apt update -y \
-&&   apt upgrade -y \
-&&   apt install libc6:armhf ca-certificates knockd bc -y
+&&   apt-get update -y \
+&&   apt-get upgrade -y \
+&&   apt-get install libc6:armhf ca-certificates knockd bc -y \
+&&   rm -rf /var/lib/apt/lists/*
 
-COPY --from=0 /build/ /
+COPY --from=builder /build/ /
 
 RUN mkdir -p    /scripts \
 				/usr/local/bin \
@@ -79,7 +74,7 @@ RUN mkdir -p    /scripts \
 
 
 # Install BepInEx, required library and scripts
-ADD ./add /scripts/
+COPY ./add /scripts/
 RUN chmod +x /scripts/valheim.sh
 
 # Setting Environmental Variables
@@ -94,4 +89,4 @@ ENV SERVER_NAME=Raspiheim \
 
 EXPOSE 2456/udp 2457/udp
 
-ENTRYPOINT /scripts/valheim.sh
+ENTRYPOINT ["/scripts/valheim.sh"]
