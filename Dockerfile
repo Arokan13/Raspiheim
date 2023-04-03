@@ -1,4 +1,4 @@
-# debian bullseye slim
+# Debian bullseye slim base image
 FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442 as builder
 
 #Install Prerequisits
@@ -40,7 +40,7 @@ RUN mkdir -p /build/steamcmd \
 &&  cd /build/steamcmd \
 &&  curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
 
-
+# Debian bullseye slim base image
 FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442
 
 RUN  dpkg --add-architecture armhf \
