@@ -1,4 +1,5 @@
-FROM arm64v8/debian:bullseye-slim
+# debian bullseye slim
+FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442
 
 #Install Prerequisits
 RUN dpkg --add-architecture armhf \
@@ -47,7 +48,7 @@ RUN mkdir -p /build/steamcmd \
 
 
 
-FROM arm64v8/debian:bullseye-slim
+FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442
 
 RUN  dpkg --add-architecture armhf \
 &&   apt update -y \
