@@ -40,13 +40,6 @@ RUN mkdir -p /build/steamcmd \
 &&  cd /build/steamcmd \
 &&  curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
 
-#Install BepInEx
-#RUN mkdir -p /build/BepInEx \
-#&&  cd /build/BepInEx \
-#&&  curl -sqL "https://valheim.plus/cdn/0.9.9/UnixServer.tar.gz" | tar zxvf - \
-#&&  rm ./BepInEx/plugins/ValheimPlus.dll
-
-
 
 FROM debian@sha256:37096792055ed86f0fc67a80bd67295a475557ad1136a76be04213b6b672d442
 
