@@ -84,7 +84,6 @@ ENV SERVER_NAME=Raspiheim \
     SAVE_DIR=/data \
     PUBLIC=0 \
     UPDATE=false \
-    MODS_ENABLED=false \
     PAUSE=false
 
 EXPOSE 2456/udp 2457/udp
