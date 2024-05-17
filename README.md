@@ -3,6 +3,12 @@ Minimum Requirements:
 - 4GB RAM
 - 64-bit OS
 
+Important for Pi5-Users!
+Due to a different pagesize (16k vs. 4k), the container won't work with the Pi5 out of the box until box86/64 accounts for the increased pagesize.
+Until then, you'll have to set it back to 4k by adding "kernel=kernel8.img" to /boot/firmware/config.txt and reboot.
+In full:
+sudo echo "kernel=kernel8.img" >> /boot/firmware/config.txt && sudo reboot 
+--16.5.2024
 
 Docker run
 
