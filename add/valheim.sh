@@ -42,7 +42,7 @@ box86 ./linux32/steamcmd +@sSteamCmdForcePlatformType linux +force_install_dir /
 fi;
 
 # Manage Persistency
-cp /scripts/start_server.sh.tpl	/valheim/start_server.sh
+cp -f /scripts/start_server.sh.tpl	/valheim/start_server.sh
 
 cd /valheim
 
