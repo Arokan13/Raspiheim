@@ -1,6 +1,5 @@
 FROM debian@sha256:914261d1145adceace843aa24efcc339f5ce4f570a192dad4bd2d31241fbeb7d
-#FROM debian@sha256:b83414a967f6846ecc835b8ff645923f89773659b07b0ac528349f1f5b5eba2c
-#FROM debian@sha256:5378522099b93d046f24ed02a149b8fc75802aacf2ea6416549e1ecfd00673eb
+
 
 #Install Prereqs
 RUN chmod 1777 /tmp \
@@ -11,10 +10,7 @@ RUN chmod 1777 /tmp \
                     libc6 libc6:armhf libatomic1 libatomic1:armhf libpulse-dev libpulse-dev:armhf libpulse0 libpulse0:armhf libmonoboehm-2.0-1 libmonoboehm-2.0-1:armhf
 
 #Install Box86-Repo
-#RUN wget --inet4-only https://ryanfortner.github.io/box86-debs/box86.list -O /etc/apt/sources.list.d/box86.list \
-#&&  wget --inet4-only -qO- https://ryanfortner.github.io/box86-debs/KEY.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/box86-debs-archive-keyring.gpg \
-#&&  apt update \
-#&&  apt install -y box86-rpi4arm64
+
 RUN wget --inet4-only https://itai-nelken.github.io/weekly-box86-debs/debian/box86.list -O /etc/apt/sources.list.d/box86.list \
 &&  wget --inet4-only -qO- https://itai-nelken.github.io/weekly-box86-debs/debian/KEY.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/box86-debs-archive-keyring.gpg \
 &&  apt update \
@@ -26,6 +22,13 @@ RUN wget --inet4-only https://ryanfortner.github.io/box64-debs/box64.list -O /et
 &&  wget --inet4-only -qO- https://ryanfortner.github.io/box64-debs/KEY.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/box64-debs-archive-keyring.gpg \
 &&  apt update \
 &&  apt install -y box64-rpi4arm64
+
+#Configure box64 for Valheim-Server
+RUN echo "" >> /etc/box64.box64rc \
+&&  echo "[valheim_server.x86_64]" >> /etc/box64.box64rc \
+&&  echo "BOX64_DYNAREC_STRONGMEM=2" >> /etc/box64.box64rc \
+&&  echo "BOX64_DYNAREC_BLEEDING_EDGE=0" >> /etc/box64.box64rc \
+&&  echo "BOX64_DYNAREC_BIGBLOCK=3" >> /etc/box64.box64rc
 
 # Install Steam
 RUN mkdir   /steamcmd \
